@@ -1,0 +1,4 @@
+! 3. Dar de alta los puertos TRUNK
+interface <todos los puertos>
+  description Interfaz para la VLAN Primaria
+  switchport mode trunk

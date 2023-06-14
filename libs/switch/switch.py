@@ -72,31 +72,31 @@ Contact: a01704108@tec.mx
 
 ! Aplicar VTP para activar el servidor de VLANs
 vtp domain CoworQ
-vtp mode server
+vtp mode {mode}
 vtp password tc2006b
 
 ! Pasos para conseguir configuraciones exitosas de VLANs
 ! 1. Dar da alta las VLANs con nombre
 vlan 100
-  name VLAN 1
+  name VLAN Primaria
 
 vlan 200
-  name VLAN 2
+  name VLAN Secundaria
 
 vlan 300
-  name VLAN 3
+  name VLAN Preparatoria
 
 vlan 400
-  name VLAN 4
+  name VLAN Entrenadores
 
 vlan 500
-  name VLAN 5
+  name VLAN Prensa
 
 vlan 600
-  name VLAN 6
+  name VLAN Jueces
 
 vlan 700
-  name VLAN 7
+  name VLAN Servidor
 
 vlan 911
   name Gestion

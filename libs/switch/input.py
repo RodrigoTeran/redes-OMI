@@ -34,17 +34,6 @@ def generate_step(index):
         code += line
     return code
 
-def create_args():
-    return {
-        "date": "21:00:00 Jun 13 2023",
-        "hostname": "",
-        "usernames": """username CEO privilege 15 secret tc2006b\nusername CIT privilege 15 secret tc2006b\nusername Admin privilege 15 secret tc2006b""",
-        "domain-name": "omi.com",
-        "interfaces": generate_interfaces(),
-        "dhcp": generate_dhcp()
-    }
-    template_router.format(**create_args())
-
 def create_code_switch(index, hostname, template_switch):
 
     args = {
@@ -52,11 +41,12 @@ def create_code_switch(index, hostname, template_switch):
         "hostname": hostname,
         "usernames": """username CEO privilege 15 secret tc2006b\nusername CIT privilege 15 secret tc2006b\nusername Admin privilege 15 secret tc2006b""",
         "domain-name": "omi.com",
+        "mode": "server" if index == 0 else "client",
         "vlan": generate_vlan_and_gateway(index),
         "steps": generate_step(index)
     }
 
     return {
-        "name": f"{hostname}.txt",
+        "name": hostname,
         "code": template_switch.format(**args)
     }
