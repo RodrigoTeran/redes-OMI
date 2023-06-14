@@ -73,44 +73,44 @@ int S0/1/0
   ip address 192.168.255.246 255.255.255.252
   no shut
 
-int G0/1.10
-  description Descripcion
+int G0/1.100
+  description Interfaz para la VLAN Primaria
   ip address 172.16.17.254 255.255.254.0
   no shut
 
-int G0/1.20
-  description Descripcion
+int G0/1.200
+  description Interfaz para la VLAN Secundaria
   ip address 172.16.18.254 255.255.255.0
   no shut
 
-int G0/1.30
-  description Descripcion
+int G0/1.300
+  description Interfaz para la VLAN Preparatoria
   ip address 172.16.19.254 255.255.255.0
   no shut
 
-int G0/1.40
-  description Descripcion
-  ip address 172.16.20.62 255.255.255.192
+int G0/1.400
+  description Interfaz para la VLAN Entrenadores
+  ip address 172.16.20.62 255.255
   no shut
 
-int G0/1.50
-  description Descripcion
-  ip address 172.16.20.126 255.255.255.192
+int G0/1.500
+  description Interfaz para la VLAN Prensa
+  ip address 172.16.20.190 255.255.255.192
   no shut
 
-int G0/1.60
-  description Descripcion
-  ip address 172.16.20.158 255.255.255.224
+int G0/1.600
+  description Interfaz para la VLAN Jueces
+  ip address 172.16.20.222 255.255.255.224
   no shut
 
-int G0/1.70
-  description Descripcion
-  ip address 172.16.20.182 255.255.255.248
+int G0/1.700
+  description Interfaz para la VLAN Servidor
+  ip address 172.16.20.230 255.255.255.248
   no shut
 
 int G0/1.911
-  description Descripcion
-  ip address 172.16.20.174 255.255.255.240
+  description Interfaz para la VLAN Gestion
+  ip address 172.16.20.126 255.255.255.192
   no shut
 
 int g0/1
@@ -135,16 +135,22 @@ ip dhcp pool POOL_Preparatoria
   default-router 172.16.19.254
   dns-server 8.8.8.8
 
-ip dhcp excluded-address 172.16.20.126
-ip dhcp pool POOL_Prensa
+ip dhcp excluded-address 172.16.20.62
+ip dhcp pool POOL_Entrenadores
   network 172.16.20.0 255.255.255.192
-  default-router 172.16.20.126
+  default-router 172.16.20.62
   dns-server 8.8.8.8
 
-ip dhcp excluded-address 172.16.20.158
+ip dhcp excluded-address 172.16.20.190
+ip dhcp pool POOL_Prensa
+  network 172.16.20.128 255.255.255.192
+  default-router 172.16.20.190
+  dns-server 8.8.8.8
+
+ip dhcp excluded-address 172.16.20.222
 ip dhcp pool POOL_Jueces
-  network 172.16.20.128 255.255.255.224
-  default-router 172.16.20.158
+  network 172.16.20.192 255.255.255.224
+  default-router 172.16.20.222
   dns-server 8.8.8.8
 
 ! Establecer una ruta por default para sacar el trafico al internet
