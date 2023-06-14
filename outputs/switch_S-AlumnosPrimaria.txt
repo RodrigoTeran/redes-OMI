@@ -1,6 +1,4 @@
-from .input import create_code_switch, read_input, read_lines_switches
-
-template_switch = """! ====================================
+! ====================================
 !    Configuracion switch 
 ! ====================================
 
@@ -10,7 +8,7 @@ enable
 ! ANTES DE ENTRAR A MODO CONFIGURACION DEL EQUIPO
 
 ! Parametros del reloj
-clock set {date}
+clock set 21:00:00 Jun 13 2023
 
 ! ==========================
 ! == CONFIGURACION GLOBAL ==
@@ -19,7 +17,7 @@ clock set {date}
 configure terminal
 
 ! Bautizar al equipo
-hostname {hostname}
+hostname S-AlumnosPrimaria
 
 ! Desactivar DNS
 ! Evita que un servidor busque un comando no reconocido (tarda)
@@ -28,10 +26,12 @@ no ip domain-lookup
 ! Establecer seguridad basica
 enable secret tc2006b
 
-{usernames}
+username CEO privilege 15 secret tc2006b
+username CIT privilege 15 secret tc2006b
+username Admin privilege 15 secret tc2006b
 
 ! Dar de alta db
-ip domain-name {domain-name}
+ip domain-name omi.com
 
 ! Algoritmo para encriptar (modulus 512 | 1024)
 crypto key generate rsa
@@ -74,22 +74,17 @@ Contact: a01704108@tec.mx
 
 ! Aplicar VTP para activar el servidor de VLANs
 vtp domain CoworQ
-vtp mode {mode}
+vtp mode client
 vtp password tc2006b
-{db}
-{steps}
 
-{vlan}"""
+! 3. Dar de alta los puertos TRUNK
+interface <todos los puertos>
+  description Interfaz para la VLAN Primaria
+  switchport mode trunk
 
-def create_switch_code(index, hostname):
-    output = create_code_switch(index, hostname, template_switch)
-    with open(f'outputs/switch_{output.get("name", "")}.txt', 'w') as f:
-        f.write(output.get("code", ""))
+interface vlan 911
+  description VLAN de gestion
+  ip address 172.16.20.162 255.255.255.240
+  no shut
 
-
-def create_switches_codes():
-    read_lines_switches()
-    lines = read_input("hostnames.txt")
-    for i in range(len(lines)):
-      line = lines[i]
-      create_switch_code(i, line)
+ip default-gateway 172.16.20.174

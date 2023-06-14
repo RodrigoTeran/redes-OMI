@@ -24,6 +24,8 @@ hostname S-Central
 no ip domain-lookup
 
 ! Establecer seguridad basica
+enable secret tc2006b
+
 username CEO privilege 15 secret tc2006b
 username CIT privilege 15 secret tc2006b
 username Admin privilege 15 secret tc2006b
@@ -78,56 +80,58 @@ vtp password tc2006b
 ! Pasos para conseguir configuraciones exitosas de VLANs
 ! 1. Dar da alta las VLANs con nombre
 vlan 100
-  name VLAN Primaria
+  name Primaria
 
 vlan 200
-  name VLAN Secundaria
+  name Secundaria
 
 vlan 300
-  name VLAN Preparatoria
+  name Preparatoria
 
 vlan 400
-  name VLAN Entrenadores
+  name Entrenadores
 
 vlan 500
-  name VLAN Prensa
+  name Prensa
 
 vlan 600
-  name VLAN Jueces
+  name Jueces
 
 vlan 700
-  name VLAN Servidor
+  name Servidor
 
 vlan 911
   name Gestion
 
+! 2. Dar de alta las VLANs
+interface G0/2
+  description Interfaz para la VLAN Servidor
+  switchport mode access
+  switchport access vlan 700
+
 ! 3. Dar de alta los puertos TRUNK
-interface F0/5-6
+interface range F0/5-6
   description Interfaz para la VLAN Primaria
   switchport mode trunk
 
-interface F0/3-4
+interface range F0/3-4
   description Interfaz para la VLAN Secundaria
   switchport mode trunk
 
-interface F0/1-2
+interface range F0/1-2
   description Interfaz para la VLAN Preparatoria
   switchport mode trunk
 
-interface F0/9-10
+interface range F0/9-10
   description Interfaz para la VLAN Entrenadores
   switchport mode trunk
 
-interface F0/7-8
+interface range F0/7-8
   description Interfaz para la VLAN Prensa
   switchport mode trunk
 
-interface F0/11-13
+interface range F0/11-13
   description Interfaz para la VLAN Jueces
-  switchport mode trunk
-
-interface G0/2
-  description Interfaz para la VLAN Servidor
   switchport mode trunk
 
 interface vlan 911

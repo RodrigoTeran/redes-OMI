@@ -1,0 +1,25 @@
+! Pasos para conseguir configuraciones exitosas de VLANs
+! 1. Dar da alta las VLANs con nombre
+vlan 100
+  name Primaria
+
+vlan 200
+  name Secundaria
+
+vlan 300
+  name Preparatoria
+
+vlan 400
+  name Entrenadores
+
+vlan 500
+  name Prensa
+
+vlan 600
+  name Jueces
+
+vlan 700
+  name Servidor
+
+vlan 911
+  name Gestion

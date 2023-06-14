@@ -22,6 +22,8 @@ hostname {hostname}
 no ip domain-lookup
 
 ! Establecer seguridad basica
+enable secret tc2006b
+
 {usernames}
 
 ! Dar de alta db
@@ -68,7 +70,7 @@ Contact: a01704108@tec.mx
 ! Configuracion de interfaces
 {interfaces}
 
-int g0/0/1
+int g0/1
   no shutdown
 
 ! Configurar un DHCP para asignar IPs de manera automatica
@@ -76,8 +78,7 @@ int g0/0/1
 
 ! Establecer una ruta por default para sacar el trafico al internet
 ! Es mejor que la secundaria este arriba
-ip route 0.0.0.0  0.0.0.0  s0/1/0 5
-ip route 0.0.0.0  0.0.0.0  g0/0/0"""
+ip route 0.0.0.0  0.0.0.0  s0/1/0"""
 
 def create_router_code():
     with open('outputs/router.txt', 'w') as f:

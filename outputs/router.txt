@@ -13,13 +13,15 @@ clock set 21:00:00 Jun 13 2023
 configure terminal
 
 ! Bautizar al equipo
-hostname RF- Evento
+hostname RF-Evento
 
 ! Desactivar DNS
 ! Evita que un servidor busque un comando no reconocido (tarda)
 no ip domain-lookup
 
 ! Establecer seguridad basica
+enable secret tc2006b
+
 username CEO privilege 15 secret tc2006b
 username CIT privilege 15 secret tc2006b
 username Admin privilege 15 secret tc2006b
@@ -71,57 +73,80 @@ int S0/1/0
   ip address 192.168.255.246 255.255.255.252
   no shut
 
-int G0/0/1.10
+int G0/1.10
   description Descripcion
   ip address 172.16.17.254 255.255.254.0
   no shut
 
-int G0/0/1.20
+int G0/1.20
   description Descripcion
   ip address 172.16.18.254 255.255.255.0
   no shut
 
-int G0/0/1.30
+int G0/1.30
   description Descripcion
   ip address 172.16.19.254 255.255.255.0
   no shut
 
-int G0/0/1.40
+int G0/1.40
   description Descripcion
-  ip address 172.16.20.62 255.255
+  ip address 172.16.20.62 255.255.255.192
   no shut
 
-int G0/0/1.50
+int G0/1.50
   description Descripcion
-  ip address 172.16.20.126 255.255
+  ip address 172.16.20.126 255.255.255.192
   no shut
 
-int G0/0/1.60
+int G0/1.60
   description Descripcion
-  ip address 172.16.20.158 255.255
+  ip address 172.16.20.158 255.255.255.224
   no shut
 
-int G0/0/1.70
+int G0/1.70
   description Descripcion
   ip address 172.16.20.182 255.255.255.248
   no shut
 
-int G0/0/1.911
+int G0/1.911
   description Descripcion
   ip address 172.16.20.174 255.255.255.240
   no shut
 
-int g0/0/1
+int g0/1
   no shutdown
 
 ! Configurar un DHCP para asignar IPs de manera automatica
-ip dhcp excluded-address 192.168.100.86
-ip dhcp pool POOL_name
-  network 192.168.100.80 255.255.255.248
-  default-router 192.168.100.86
+ip dhcp excluded-address 172.16.17.254
+ip dhcp pool POOL_Primaria
+  network 172.16.16.0 255.255.254.0
+  default-router 172.16.17.254
+  dns-server 8.8.8.8
+
+ip dhcp excluded-address 172.16.18.254
+ip dhcp pool POOL_Secundaria
+  network 172.16.18.0 255.255.255.0
+  default-router 172.16.18.254
+  dns-server 8.8.8.8
+
+ip dhcp excluded-address 172.16.19.254
+ip dhcp pool POOL_Preparatoria
+  network 172.16.19.0 255.255.255.0
+  default-router 172.16.19.254
+  dns-server 8.8.8.8
+
+ip dhcp excluded-address 172.16.20.126
+ip dhcp pool POOL_Prensa
+  network 172.16.20.0 255.255.255.192
+  default-router 172.16.20.126
+  dns-server 8.8.8.8
+
+ip dhcp excluded-address 172.16.20.158
+ip dhcp pool POOL_Jueces
+  network 172.16.20.128 255.255.255.224
+  default-router 172.16.20.158
   dns-server 8.8.8.8
 
 ! Establecer una ruta por default para sacar el trafico al internet
 ! Es mejor que la secundaria este arriba
-ip route 0.0.0.0  0.0.0.0  s0/1/0 5
-ip route 0.0.0.0  0.0.0.0  g0/0/0
+ip route 0.0.0.0  0.0.0.0  s0/1/0

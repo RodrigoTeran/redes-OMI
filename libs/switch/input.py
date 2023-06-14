@@ -22,8 +22,8 @@ def generate_vlan_and_gateway(index):
     template = """interface vlan 911\n  description VLAN de gestion\n  ip address {} {}\n  no shut\n\nip default-gateway {}"""
     return generate("switches.txt", template, index)
 
-def generate_step(index):
-    lines = read_input(f"switches/{index + 1}.txt")
+def generate_lines(file_name):
+    lines = read_input(file_name)
     code = ""
 
     for i in range(len(lines)):
@@ -34,6 +34,13 @@ def generate_step(index):
         code += line
     return code
 
+def generate_step(index):
+    return generate_lines(f"switches/{index + 1}.txt")
+
+def generate_vlans_db(index):
+    if index != 0: return ""
+    return f"\n{generate_lines('vlans.txt')}\n"
+
 def create_code_switch(index, hostname, template_switch):
 
     args = {
@@ -43,6 +50,7 @@ def create_code_switch(index, hostname, template_switch):
         "domain-name": "omi.com",
         "mode": "server" if index == 0 else "client",
         "vlan": generate_vlan_and_gateway(index),
+        "db": generate_vlans_db(index),
         "steps": generate_step(index)
     }
 
