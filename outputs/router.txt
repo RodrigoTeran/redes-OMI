@@ -1,0 +1,127 @@
+! ====================================
+!    Configuracion Router Frontera
+! ====================================
+
+! Cambiar al modo privilegiado
+enable
+
+! ANTES DE ENTRAR A MODO CONFIGURACION DEL EQUIPO
+
+! Parametros del reloj
+clock set 21:00:00 Jun 13 2023
+
+configure terminal
+
+! Bautizar al equipo
+hostname 
+
+! Desactivar DNS
+! Evita que un servidor busque un comando no reconocido (tarda)
+no ip domain-lookup
+
+! Establecer seguridad basica
+username CEO privilege 15 secret tc2006b
+username CIT privilege 15 secret tc2006b
+username Admin privilege 15 secret tc2006b
+
+! Dar de alta db
+ip domain-name 
+
+! Algoritmo para encriptar (modulus 512 | 1024)
+crypto key generate rsa
+
+yes
+1024
+
+! Linea de la consola
+line console 0
+login local
+logging sync
+
+! 5 conexiones default en el router (0 4)
+line vty 0 1
+transport input ssh
+login local
+logging sync
+
+! Banner
+banner motd #
+System administrator:
+ _____ ___________  ___   _   _ 
+|_   _|  ___| ___ \/ _ \ | \ | |
+  | | | |__ | |_/ / /_\ \|  \| |
+  | | |  __||    /|  _  || . ` |
+  | | | |___| |\ \| | | || |\  |
+  \_/ \____/\_| \_\_| |_/\_| \_/
+
+Contact: a01704108@tec.mx
+
+********************************* WARNING *********************************
+*                                                                         *
+*       If you are not authorized to use this system disconnect now       *
+*                                                                         *
+*   All attempts to access this system and/or its resources are recorded  *
+*                                                                         *
+***************************************************************************
+#
+
+! Configuracion de interfaces
+int S0/1/0
+  description Descripcion
+  ip address 192.168.255.246 255.255.255.252
+  no shut
+
+int G0/0/1.10
+  description Descripcion
+  ip address 172.16.17.254 255.255.254.0
+  no shut
+
+int G0/0/1.20
+  description Descripcion
+  ip address 172.16.18.254 255.255.255.0
+  no shut
+
+int G0/0/1.30
+  description Descripcion
+  ip address 172.16.19.254 255.255.255.0
+  no shut
+
+int G0/0/1.40
+  description Descripcion
+  ip address 172.16.20.62 255.255
+  no shut
+
+int G0/0/1.50
+  description Descripcion
+  ip address 172.16.20.126 255.255
+  no shut
+
+int G0/0/1.60
+  description Descripcion
+  ip address 172.16.20.158 255.255
+  no shut
+
+int G0/0/1.70
+  description Descripcion
+  ip address 172.16.20.182 255.255.255.248
+  no shut
+
+int G0/0/1.911
+  description Descripcion
+  ip address 172.16.20.174 255.255.255.240
+  no shut
+
+int g0/0/1
+  no shutdown
+
+! Configurar un DHCP para asignar IPs de manera automatica
+ip dhcp excluded-address 192.168.100.86
+ip dhcp pool POOL_name
+  network 192.168.100.80 255.255.255.248
+  default-router 192.168.100.86
+  dns-server 8.8.8.8
+
+! Establecer una ruta por default para sacar el trafico al internet
+! Es mejor que la secundaria este arriba
+ip route 0.0.0.0  0.0.0.0  s0/1/0 5
+ip route 0.0.0.0  0.0.0.0  g0/0/0
