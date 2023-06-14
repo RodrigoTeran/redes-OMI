@@ -8,23 +8,29 @@ interface G0/2
 interface range F0/5-6
   description Interfaz para la VLAN Primaria
   switchport mode trunk
+  no shut
 
 interface range F0/3-4
   description Interfaz para la VLAN Secundaria
   switchport mode trunk
+  no shut
 
 interface range F0/1-2
   description Interfaz para la VLAN Preparatoria
   switchport mode trunk
+  no shut
 
 interface range F0/9-10
   description Interfaz para la VLAN Entrenadores
   switchport mode trunk
+  no shut
 
 interface range F0/7-8
   description Interfaz para la VLAN Prensa
   switchport mode trunk
+  no shut
 
 interface range F0/11-13
   description Interfaz para la VLAN Jueces
   switchport mode trunk
+  no shut

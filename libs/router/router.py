@@ -31,8 +31,6 @@ ip domain-name {domain-name}
 
 ! Algoritmo para encriptar (modulus 512 | 1024)
 crypto key generate rsa
-
-yes
 1024
 
 ! Linea de la consola

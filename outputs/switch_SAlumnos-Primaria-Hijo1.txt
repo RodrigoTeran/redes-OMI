@@ -17,7 +17,7 @@ clock set 21:00:00 Jun 13 2023
 configure terminal
 
 ! Bautizar al equipo
-hostname S-AlumnosPrimaria
+hostname SAlumnos-Primaria-Hijo1
 
 ! Desactivar DNS
 ! Evita que un servidor busque un comando no reconocido (tarda)
@@ -35,8 +35,6 @@ ip domain-name omi.com
 
 ! Algoritmo para encriptar (modulus 512 | 1024)
 crypto key generate rsa
-
-yes
 1024
 
 ! Linea de la consola
@@ -78,13 +76,14 @@ vtp mode client
 vtp password tc2006b
 
 ! 3. Dar de alta los puertos TRUNK
-interface <todos los puertos>
+interface G0/1
   description Interfaz para la VLAN Primaria
   switchport mode trunk
+  no shut
 
 interface vlan 911
   description VLAN de gestion
-  ip address 172.16.20.162 255.255.255.240
+  ip address 172.16.20.67 255.255.255.192
   no shut
 
-ip default-gateway 172.16.20.174
+ip default-gateway 172.16.20.126

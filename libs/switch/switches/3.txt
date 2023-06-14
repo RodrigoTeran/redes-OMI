@@ -3,8 +3,3 @@ interface G0/1
   description Interfaz para la VLAN Primaria
   switchport mode trunk
   no shut
-
-interface range F0/1-24
-  description Interfaz para la VLAN Primaria
-  switchport mode trunk
-  no shut

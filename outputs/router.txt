@@ -31,8 +31,6 @@ ip domain-name omi.com
 
 ! Algoritmo para encriptar (modulus 512 | 1024)
 crypto key generate rsa
-
-yes
 1024
 
 ! Linea de la consola
@@ -74,42 +72,42 @@ int S0/1/0
   no shut
 
 int G0/1.100
-  description Interfaz para la VLAN Primaria
+  description Descripcion
   ip address 172.16.17.254 255.255.254.0
   no shut
 
 int G0/1.200
-  description Interfaz para la VLAN Secundaria
+  description Descripcion
   ip address 172.16.18.254 255.255.255.0
   no shut
 
 int G0/1.300
-  description Interfaz para la VLAN Preparatoria
+  description Descripcion
   ip address 172.16.19.254 255.255.255.0
   no shut
 
 int G0/1.400
-  description Interfaz para la VLAN Entrenadores
-  ip address 172.16.20.62 255.255
+  description Descripcion
+  ip address 172.16.20.62 255.255.255.192
   no shut
 
 int G0/1.500
-  description Interfaz para la VLAN Prensa
+  description Descripcion
   ip address 172.16.20.190 255.255.255.192
   no shut
 
 int G0/1.600
-  description Interfaz para la VLAN Jueces
+  description Descripcion
   ip address 172.16.20.222 255.255.255.224
   no shut
 
 int G0/1.700
-  description Interfaz para la VLAN Servidor
+  description Descripcion
   ip address 172.16.20.230 255.255.255.248
   no shut
 
 int G0/1.911
-  description Interfaz para la VLAN Gestion
+  description Descripcion
   ip address 172.16.20.126 255.255.255.192
   no shut
 

@@ -1,7 +1,3 @@
 S-Central
-S-AlumnosPrimaria
-S-AlumnosSecundaria
-S-AlumnosPreparatoria
-S-Entrenadores
-S-Prensa
-S-Jueces
+SCentral-AlumnosPrimaria
+SAlumnos-Primaria-Hijo1
