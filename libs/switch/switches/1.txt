@@ -1,0 +1,24 @@
+! 2. Asignar puertos a cada VLAN
+interface f0/1
+  description Interfaz para la VLAN Entretenimiento
+  switchport mode access
+  switchport access vlan 100
+
+interface range f0/8-14
+  description Interfaz para la VLAN Educacion
+  switchport mode access
+  switchport access vlan 200
+
+! Quitamos la f0/15 a troncal
+interface range f0/16-20
+  description Interfaz para la VLAN IoT
+  switchport mode access
+  switchport access vlan 300
+
+! Quitamos el g0/2 y pasa a troncal también
+
+! 3. Dar de alta los puertos TRUNK
+interface range f0/15, g0/1-2
+  description Para transportar el trafico de las VLANs
+  switchport mode trunk
+  no shut

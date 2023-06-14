@@ -29,9 +29,9 @@ def generate_dhcp():
 
 args = {
     "date": "21:00:00 Jun 13 2023",
-    "hostname": "",
+    "hostname": "RF- Evento",
     "usernames": """username CEO privilege 15 secret tc2006b\nusername CIT privilege 15 secret tc2006b\nusername Admin privilege 15 secret tc2006b""",
-    "domain-name": "",
+    "domain-name": "omi.com",
     "interfaces": generate_interfaces(),
     "dhcp": generate_dhcp()
 }

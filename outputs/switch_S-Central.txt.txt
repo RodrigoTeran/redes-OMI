@@ -1,5 +1,5 @@
 ! ====================================
-!    Configuracion Router Frontera
+!    Configuracion switch 
 ! ====================================
 
 ! Cambiar al modo privilegiado
@@ -10,10 +10,14 @@ enable
 ! Parametros del reloj
 clock set 21:00:00 Jun 13 2023
 
+! ==========================
+! == CONFIGURACION GLOBAL ==
+! ==========================
+! Para terminal
 configure terminal
 
 ! Bautizar al equipo
-hostname RF- Evento
+hostname S-Central
 
 ! Desactivar DNS
 ! Evita que un servidor busque un comando no reconocido (tarda)
@@ -35,14 +39,15 @@ yes
 
 ! Linea de la consola
 line console 0
-login local
-logging sync
+  login local
+  logging sync
 
 ! 5 conexiones default en el router (0 4)
 line vty 0 1
-transport input ssh
-login local
-logging sync
+  transport input ssh
+  login local
+  logging sync
+
 
 ! Banner
 banner motd #
@@ -65,63 +70,65 @@ Contact: a01704108@tec.mx
 ***************************************************************************
 #
 
-! Configuracion de interfaces
-int S0/1/0
-  description Descripcion
-  ip address 192.168.255.246 255.255.255.252
+! Aplicar VTP para activar el servidor de VLANs
+vtp domain CoworQ
+vtp mode server
+vtp password tc2006b
+
+! Pasos para conseguir configuraciones exitosas de VLANs
+! 1. Dar da alta las VLANs con nombre
+vlan 100
+  name VLAN 1
+
+vlan 200
+  name VLAN 2
+
+vlan 300
+  name VLAN 3
+
+vlan 400
+  name VLAN 4
+
+vlan 500
+  name VLAN 5
+
+vlan 600
+  name VLAN 6
+
+vlan 700
+  name VLAN 7
+
+vlan 911
+  name Gestion
+
+! 2. Asignar puertos a cada VLAN
+interface f0/1
+  description Interfaz para la VLAN Entretenimiento
+  switchport mode access
+  switchport access vlan 100
+
+interface range f0/8-14
+  description Interfaz para la VLAN Educacion
+  switchport mode access
+  switchport access vlan 200
+
+! Quitamos la f0/15 a troncal
+interface range f0/16-20
+  description Interfaz para la VLAN IoT
+  switchport mode access
+  switchport access vlan 300
+
+! Quitamos el g0/2 y pasa a troncal también
+
+! 3. Dar de alta los puertos TRUNK
+interface range f0/15, g0/1-2
+  description Para transportar el trafico de las VLANs
+  switchport mode trunk
   no shut
 
-int G0/0/1.10
-  description Descripcion
-  ip address 172.16.17.254 255.255.254.0
+interface vlan 911
+  description VLAN de gestion
+  ip address 172.16.20.161 255.255.255.240
   no shut
 
-int G0/0/1.20
-  description Descripcion
-  ip address 172.16.18.254 255.255.255.0
-  no shut
-
-int G0/0/1.30
-  description Descripcion
-  ip address 172.16.19.254 255.255.255.0
-  no shut
-
-int G0/0/1.40
-  description Descripcion
-  ip address 172.16.20.62 255.255
-  no shut
-
-int G0/0/1.50
-  description Descripcion
-  ip address 172.16.20.126 255.255
-  no shut
-
-int G0/0/1.60
-  description Descripcion
-  ip address 172.16.20.158 255.255
-  no shut
-
-int G0/0/1.70
-  description Descripcion
-  ip address 172.16.20.182 255.255.255.248
-  no shut
-
-int G0/0/1.911
-  description Descripcion
-  ip address 172.16.20.174 255.255.255.240
-  no shut
-
-int g0/0/1
-  no shutdown
-
-! Configurar un DHCP para asignar IPs de manera automatica
-ip dhcp excluded-address 192.168.100.86
-ip dhcp pool POOL_name
-  network 192.168.100.80 255.255.255.248
-  default-router 192.168.100.86
-  dns-server 8.8.8.8
-
-! Establecer una ruta por default para sacar el trafico al internet
-! Es mejor que la secundaria este arriba
-ip route 0.0.0.0  0.0.0.0  s0/1/0 5
-ip route 0.0.0.0  0.0.0.0  g0/0/0
+ip default-gateway 172.16.20.174
