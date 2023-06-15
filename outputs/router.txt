@@ -31,6 +31,7 @@ ip domain-name omi.com
 
 ! Algoritmo para encriptar (modulus 512 | 1024)
 crypto key generate rsa
+yes
 1024
 
 ! Linea de la consola
@@ -47,7 +48,7 @@ logging sync
 ! Banner
 banner motd #
 System administrator:
- _____ ___________  ___   _   _ 
+ _____ ___________  ___   _   _
 |_   _|  ___| ___ \/ _ \ | \ | |
   | | | |__ | |_/ / /_\ \|  \| |
   | | |  __||    /|  _  || . ` |
@@ -73,43 +74,43 @@ int S0/1/0
 
 int G0/1.100
   description Descripcion
+  encapsulation dot1q 100
   ip address 172.16.17.254 255.255.254.0
-  no shut
 
 int G0/1.200
   description Descripcion
+  encapsulation dot1q 200
   ip address 172.16.18.254 255.255.255.0
-  no shut
 
 int G0/1.300
   description Descripcion
+  encapsulation dot1q 300
   ip address 172.16.19.254 255.255.255.0
-  no shut
 
 int G0/1.400
   description Descripcion
+  encapsulation dot1q 400
   ip address 172.16.20.62 255.255.255.192
-  no shut
 
 int G0/1.500
   description Descripcion
+  encapsulation dot1q 500
   ip address 172.16.20.190 255.255.255.192
-  no shut
 
 int G0/1.600
   description Descripcion
+  encapsulation dot1q 600
   ip address 172.16.20.222 255.255.255.224
-  no shut
 
 int G0/1.700
   description Descripcion
+  encapsulation dot1q 700
   ip address 172.16.20.230 255.255.255.248
-  no shut
 
 int G0/1.911
   description Descripcion
+  encapsulation dot1q 911
   ip address 172.16.20.126 255.255.255.192
-  no shut
 
 int g0/1
   no shutdown
@@ -146,6 +147,7 @@ ip dhcp pool POOL_Prensa
   dns-server 8.8.8.8
 
 ip dhcp excluded-address 172.16.20.222
+ip dhcp excluded-address 172.16.20.193 172.16.20.196
 ip dhcp pool POOL_Jueces
   network 172.16.20.192 255.255.255.224
   default-router 172.16.20.222
@@ -154,3 +156,4 @@ ip dhcp pool POOL_Jueces
 ! Establecer una ruta por default para sacar el trafico al internet
 ! Es mejor que la secundaria este arriba
 ip route 0.0.0.0  0.0.0.0  s0/1/0
+

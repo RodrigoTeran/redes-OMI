@@ -1,5 +1,5 @@
 ! ====================================
-!    Configuracion switch
+! Configuracion switch
 ! ====================================
 
 ! Cambiar al modo privilegiado
@@ -17,7 +17,7 @@ clock set 21:00:00 Jun 13 2023
 configure terminal
 
 ! Bautizar al equipo
-hostname SCentral-AlumnosPrimaria
+hostname SPrensa
 
 ! Desactivar DNS
 ! Evita que un servidor busque un comando no reconocido (tarda)
@@ -40,35 +40,39 @@ yes
 
 ! Linea de la consola
 line console 0
-  login local
-  logging sync
+login local
+logging sync
 
 ! 5 conexiones default en el router (0 4)
 line vty 0 1
-  transport input ssh
-  login local
-  logging sync
-
+transport input ssh
+login local
+logging sync
 
 ! Banner
 banner motd #
 System administrator:
- _____ ___________  ___   _   _
-|_   _|  ___| ___ \/ _ \ | \ | |
-  | | | |__ | |_/ / /_\ \|  \| |
-  | | |  __||    /|  _  || . ` |
-  | | | |___| |\ \| | | || |\  |
-  \_/ \____/\_| \_\_| |_/\_| \_/
+
+---
+
+|\_ \_| **_| _** \/ _ \ | \ | |
+| | | |\_\_ | |_/ / /_\ \| \| |
+| | | \_\_|| /| _ || . ` |
+| | | |**\_| |\ \| | | || |\ |
+\_/ \_\_**/\_| \_\_| |\_/\_| \_/
 
 Contact: a01704108@tec.mx
 
-********************************* WARNING *********************************
-*                                                                         *
-*       If you are not authorized to use this system disconnect now       *
-*                                                                         *
-*   All attempts to access this system and/or its resources are recorded  *
-*                                                                         *
-***************************************************************************
+****************\***************** WARNING ****************\*****************
+
+-                                                                         *
+-       If you are not authorized to use this system disconnect now       *
+-                                                                         *
+- All attempts to access this system and/or its resources are recorded \*
+-                                                                         *
+
+---
+
 #
 
 ! Aplicar VTP para activar el servidor de VLANs
@@ -76,15 +80,18 @@ vtp domain OMI
 vtp mode client
 vtp password tc2006b
 
+interface range F0/1-24, G0/2
+switchport mode access
+switchport access vlan 500
+
 ! 3. Dar de alta los puertos TRUNK
-interface range G0/1-2, F0/1-24
-  description Interfaz para la VLAN Primaria
-  switchport mode trunk
-  no shut
+interface G0/1
+switchport mode trunk
+no shut
 
 interface vlan 911
-  description VLAN de gestion
-  ip address 172.16.20.66 255.255.255.192
-  no shut
+description VLAN de gestion
+ip address 172.16.20.97 255.255.255.192
+no shut
 
 ip default-gateway 172.16.20.126

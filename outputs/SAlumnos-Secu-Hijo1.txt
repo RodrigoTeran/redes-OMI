@@ -17,7 +17,7 @@ clock set 21:00:00 Jun 13 2023
 configure terminal
 
 ! Bautizar al equipo
-hostname S-Central
+hostname SAlumnos-Secu-Hijo1
 
 ! Desactivar DNS
 ! Evita que un servidor busque un comando no reconocido (tarda)
@@ -73,49 +73,24 @@ Contact: a01704108@tec.mx
 
 ! Aplicar VTP para activar el servidor de VLANs
 vtp domain OMI
-vtp mode server
+vtp mode client
 vtp password tc2006b
 
-! Pasos para conseguir configuraciones exitosas de VLANs
-! 1. Dar da alta las VLANs con nombre
-vlan 100
-  name Primaria
-
-vlan 200
-  name Secundaria
-
-vlan 300
-  name Preparatoria
-
-vlan 400
-  name Entrenadores
-
-vlan 500
-  name Prensa
-
-vlan 600
-  name Jueces
-
-vlan 700
-  name Servidor
-
-vlan 911
-  name Gestion
-
 ! 2. Dar de alta las VLANs
-interface G0/2
+interface range F0/1-24, G0/2
   description Interfaz para la VLAN Servidor
   switchport mode access
-  switchport access vlan 700
+  switchport access vlan 200
 
 ! 3. Dar de alta los puertos TRUNK
-interface range F0/1-13, G0/1
+interface G0/1
+  description Interfaz para la VLAN Primaria
   switchport mode trunk
   no shut
 
 interface vlan 911
   description VLAN de gestion
-  ip address 172.16.20.65 255.255.255.192
+  ip address 172.16.20.80 255.255.255.192
   no shut
 
 ip default-gateway 172.16.20.126

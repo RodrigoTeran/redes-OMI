@@ -1,5 +1,5 @@
 ! ====================================
-!    Configuracion switch 
+!    Configuracion switch
 ! ====================================
 
 ! Cambiar al modo privilegiado
@@ -35,6 +35,7 @@ ip domain-name omi.com
 
 ! Algoritmo para encriptar (modulus 512 | 1024)
 crypto key generate rsa
+yes
 1024
 
 ! Linea de la consola
@@ -52,7 +53,7 @@ line vty 0 1
 ! Banner
 banner motd #
 System administrator:
- _____ ___________  ___   _   _ 
+ _____ ___________  ___   _   _
 |_   _|  ___| ___ \/ _ \ | \ | |
   | | | |__ | |_/ / /_\ \|  \| |
   | | |  __||    /|  _  || . ` |
@@ -71,9 +72,15 @@ Contact: a01704108@tec.mx
 #
 
 ! Aplicar VTP para activar el servidor de VLANs
-vtp domain CoworQ
+vtp domain OMI
 vtp mode client
 vtp password tc2006b
+
+! 2. Dar de alta las VLANs
+interface range F0/1-24, G0/2
+  description Interfaz para la VLAN Servidor
+  switchport mode access
+  switchport access vlan 100
 
 ! 3. Dar de alta los puertos TRUNK
 interface G0/1
